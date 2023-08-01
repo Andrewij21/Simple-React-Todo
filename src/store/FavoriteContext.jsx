@@ -37,7 +37,6 @@ export function FovoriteContextProvider(props) {
     removeMeetup: removeMeetupHandler,
     itemIsFavorite: itemIsFavoriteHandler,
   };
-  console.log(favorites);
   return (
     <FavoriteContext.Provider value={context}>
       {props.children}
