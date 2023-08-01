@@ -1,15 +1,26 @@
 import PropTypes from "prop-types";
 import classes from "./MeetupItem.module.css";
 import Card from "../ui/Card";
+import { useContext } from "react";
+import FavoriteContext from "../../store/FavoriteContext";
 
 MeetupItem.propTypes = {
   image: PropTypes.string,
   title: PropTypes.string,
   address: PropTypes.string,
   description: PropTypes.string,
+  id: PropTypes.string,
 };
 
 function MeetupItem(props) {
+  const favoritectx = useContext(FavoriteContext);
+  const isFavorite = favoritectx.itemIsFavorite(props.id);
+
+  function toggleFavoriteStatusHandler() {
+    if (isFavorite) return favoritectx.removeMeetup(props.id);
+    favoritectx.addMeetup(props);
+  }
+
   return (
     <Card>
       <li className={classes.item}>
@@ -22,7 +33,9 @@ function MeetupItem(props) {
           <p>{props.description}</p>
         </div>
         <div className={classes.actions}>
-          <button>To Favorite</button>
+          <button onClick={toggleFavoriteStatusHandler}>
+            {isFavorite ? "Remove from Favorite" : "To Favorite"}
+          </button>
         </div>
       </li>
     </Card>
